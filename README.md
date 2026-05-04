@@ -1,6 +1,6 @@
 # WLED Remote Project
 
-A custom controller featuring a display and 9 physical buttons designed for remote WLED control. This device allows for dynamic color mixing and real-time visual feedback.
+A custom controller featuring a display and 9 physical buttons designed for remote WLED control. This basic device allows for dynamic color mixing.
 
 ## Project Overview
 The goal of this project is to create an intuitive hardware interface where buttons function as color components, allowing users to "mix" light in real-time.
