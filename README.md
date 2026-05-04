@@ -24,7 +24,7 @@ The project is built using the following core components:
 ## Development Progress & Milestones
 
 ### 1. 3D Design & Modeling
-The enclosure design is complete. It was engineered to house the XIAO board, the ST7789 display, and the 9-button matrix.
+The enclosure design is complete. It was engineered to the ST7789 display, and the 9 button.
 ![3D Model Render](Images/3d_model.png)
 
 ### 2. Electronics & Wiring
