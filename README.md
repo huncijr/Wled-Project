@@ -35,7 +35,7 @@ The circuit design and wiring diagram are nearly finished. This involves mapping
 
 | Internal View | Outside View | Model Button |
 | :--- | :--- | :--- |
-| ![Enclosure Outside](Images/model_outside.jpg) | ![Enclosure Inside](Images/model_inside.jpg) | ![Model Button](Images/model_button.jpg) |
+| ![Enclosure Outside](Images/model_outside.jpg) | ![Enclosure Inside](Images/model_inside.jpg) | ![Model Button](Images/model_buttom.jpg) |
 ### Printing Process
 The prototype was manufactured with a 0.2mm layer height. The video below shows the printing process based on the `printing_template`:
 
