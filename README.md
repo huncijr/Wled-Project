@@ -42,7 +42,7 @@ The modeling phase paid close attention to the mechanical travel of the buttons 
 The prototype was manufactured with a 0.2mm layer height. The video below shows the printing process based on the `printing_template`:
 
 **Printing Timelapse:**
-![3D Printing Process](Videos/printing_template.gif)
+![3D Printing Process](Videos/Printing_template.gif)
 
 ## Installation & Usage
 *(Instructions for code upload and configuration will be added here once the firmware is finalized.)*
