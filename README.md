@@ -32,7 +32,6 @@ The circuit design and wiring diagram are nearly finished. This involves mapping
 ![Wiring Diagram](Images/wiring_diagram.png)
 
 ### 3. 3D Development Progress
-The modeling phase paid close attention to the mechanical travel of the buttons and the secure mounting of the ESP32-C3. This is how the 3D plan looks and how the development progressed with the internal structure:
 
 | Outside View | Internal Structure |
 | :--- | :--- |
