@@ -57,5 +57,6 @@ The prototype was manufactured with a 0.2mm layer height. The video below shows 
 *This is what the project looks like from the front.*
 
 ![Wiring Diagram](Videos/changing_the_led.gif)
+
 *This is how the results looks like.*
 ---
