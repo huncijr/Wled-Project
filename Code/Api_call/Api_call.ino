@@ -1,111 +1,129 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-
-
 const char* WIFI_SSID = "ARM-band";
 const char* WIFI_PASS = "vivawed6";
+const char* WLED_HOST  = "4.3.2.1";
 
-const char* WLED_HOST = "4.3.2.1";
-const uint16_t WLED_PORT = 80;
+const int LED_COUNT = 288; // 8x36 from repo
 
-// Build the full URL to a WLED HTTP endpoint
-String wledUrl(const char* path) {
-  return String("http://") + WLED_HOST + ":" + String(WLED_PORT) + path;
+const int BUTTON_PINS[] = {3, 4, 5, 6, 7, 21};
+const int BUTTON_COUNT = sizeof(BUTTON_PINS) / sizeof(BUTTON_PINS[0]);
+
+struct ButtonState {
+  int pin;
+  int lastReading;
+  int stableState;
+  unsigned long lastChange;
+};
+
+ButtonState buttons[BUTTON_COUNT] = {
+  {3, HIGH, HIGH, 0},
+  {4, HIGH, HIGH, 0},
+  {5, HIGH, HIGH, 0},
+  {6, HIGH, HIGH, 0},
+  {7, HIGH, HIGH, 0},
+  {21, HIGH, HIGH, 0}
+};
+
+String url() {
+  return String("http://") + WLED_HOST + "/json/state";
 }
 
-// Send a JSON state update to WLED and print the result to Serial
-bool wledPostStateJson(const String& json) {
-  // Only attempt HTTP if we are connected to Wi-Fi
-  if (WiFi.status() != WL_CONNECTED) return false;
-
-  HTTPClient http;
-  const String url = wledUrl("/json/state");
-
-  // Open HTTP connection and send JSON body
-  http.begin(url);
-  http.addHeader("Content-Type", "application/json");
-
-  int code = http.POST((uint8_t*)json.c_str(), json.length());
-  String resp = http.getString();
-  http.end();
-
-  // Debug: show whether WLED accepted the request
-  Serial.print("POST ");
-  Serial.print(url);
-  Serial.print(" -> HTTP ");
-  Serial.println(code);
-
-  if (resp.length()) {
-    Serial.print("Resp: ");
-    Serial.println(resp);
+void post(const String& j) {
+  HTTPClient h;
+  if (!h.begin(url())) {
+    Serial.println("http.begin() failed");
+    return;
   }
 
-  return code >= 200 && code < 300;
+  h.addHeader("Content-Type", "application/json");
+  int code = h.POST((uint8_t*)j.c_str(), j.length());
+
+  Serial.print("HTTP ");
+  Serial.println(code);
+
+  if (code > 0) {
+    Serial.println(h.getString());
+  } else {
+    Serial.println(h.errorToString(code));
+  }
+
+  h.end();
 }
 
-// Connect to the target Wi-Fi (WLED AP or your router)
-void connectToAp() {
-  Serial.print("Connecting to AP: ");
-  Serial.println(WIFI_SSID);
+void setFullColor(uint8_t r, uint8_t g, uint8_t b) {
+  String json =
+    "{\"on\":true,\"bri\":128,\"seg\":["
+      "{\"id\":0,\"start\":0,\"stop\":" + String(LED_COUNT) + ",\"col\":[[" +
+      String(r) + "," + String(g) + "," + String(b) + "]]}"
+    "]}";
+  post(json);
+}
 
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
+bool buttonPressed(ButtonState &b) {
+  const unsigned long debounceMs = 50;
+  int reading = digitalRead(b.pin);
 
-  // Wait up to ~20 seconds for connection
-  const uint32_t start = millis();
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(300);
-    Serial.print(".");
-    if (millis() - start > 20000) {
-      Serial.println("\nWiFi connect TIMEOUT");
-      return;
+  if (reading != b.lastReading) {
+    b.lastChange = millis();
+    b.lastReading = reading;
+  }
+
+  if ((millis() - b.lastChange) > debounceMs) {
+    if (reading != b.stableState) {
+      b.stableState = reading;
+      if (b.stableState == LOW) {
+        return true; // pressed
+      }
     }
   }
 
-  // Connected: print IP details for troubleshooting
-  Serial.println("\nWiFi connected!");
-  Serial.print("STA IP: ");
-  Serial.println(WiFi.localIP());
-  Serial.print("Gateway: ");
-  Serial.println(WiFi.gatewayIP());
-  Serial.print("DNS: ");
-  Serial.println(WiFi.dnsIP());
+  return false;
 }
 
 void setup() {
- 
   Serial.begin(115200);
-  delay(1500);
-  Serial.println("\nBOOT OK - starting WiFi connect...");
 
-  connectToAp();
+  for (int i = 0; i < BUTTON_COUNT; i++) {
+    pinMode(buttons[i].pin, INPUT_PULLUP);
+  }
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(200);
+    Serial.println("Connecting WiFi...");
+  }
+  Serial.println("WiFi connected");
+
+  // start with full red
+  setFullColor(255, 0, 0);
 }
 
 void loop() {
-  // If Wi-Fi drops, try to reconnect instead of sending HTTP
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("WiFi disconnected, retrying...");
-    connectToAp();
-    delay(1000);
-    return;
+  if (buttonPressed(buttons[0])) { // GPIO3
+    Serial.println("GPIO3 -> YELLOW");
+    setFullColor(255, 255, 0);
   }
-LED
-  static uint8_t step = 0;
-  String json;
-
-  if (step % 3 == 0) {
-    json = R"({"on":true,"bri":128,"seg":[{"col":[[255,0,0]]}]})"; 
-  } else if (step % 3 == 1) {
-    json = R"({"on":true,"bri":128,"seg":[{"col":[[0,255,0]]}]})"; 
-  } else {
-    json = R"({"on":true,"bri":128,"seg":[{"col":[[0,0,255]]}]})"; 
+  if (buttonPressed(buttons[1])) { // GPIO4
+    Serial.println("GPIO4 -> GREEN");
+    setFullColor(0, 255, 0);
   }
-
-  //  push the new state to WLED
-  wledPostStateJson(json);
-  step++;
-
-  
-  delay(5000);
+  if (buttonPressed(buttons[2])) { // GPIO5
+    Serial.println("GPIO5 -> BLUE");
+    setFullColor(0, 0, 255);
+  }
+  if (buttonPressed(buttons[3])) { // GPIO6
+    Serial.println("GPIO6 -> PURPLE");
+    setFullColor(255, 0, 255);
+  }
+  if (buttonPressed(buttons[4])) { // GPIO7
+    Serial.println("GPIO7 -> CYAN");
+    setFullColor(0, 255, 255);
+  }
+  if (buttonPressed(buttons[5])) { // GPIO21
+    Serial.println("GPIO21 -> WHITE");
+    setFullColor(255, 255, 255);
+  }
 }
