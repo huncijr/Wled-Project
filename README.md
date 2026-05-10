@@ -43,6 +43,19 @@ The prototype was manufactured with a 0.2mm layer height. The video below shows 
 ![3D Printing Process](Videos/Printing_template.gif)
 
 ## Installation & Usage
-*(Instructions for code upload and configuration will be added here once the firmware is finalized.)*
 
+![Day 5 - Photo 1](Images/buttons_adeded.jpg)
+
+*I Added the buttons and the screen.*
+
+![Day 5 - Photo 2](Images/connected_toesp.jpg)
+
+*I added the ESP and wired up the screen and the buttons.*
+
+![Day 5 - Photo 3](Images/frontview.jpg)
+
+*This is what the project looks like from the front.*
+
+![Wiring Diagram](Videos/changing_the_led.gif)
+*This is how the results looks like.*
 ---
