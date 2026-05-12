@@ -49,7 +49,7 @@ The prototype was manufactured with a 0.2mm layer height. The video below shows 
 | ![Day 5 - Photo 2](Images/connected_toesp.jpg)<br>*I added the ESP and wired up the screen and the buttons.* | ![Day 5 - Photo 3](Images/frontview.jpg)<br>*This is what the project looks like from the front.* |
 
 Printed and added Buttons
-![Wiring Diagram](Images/wiring_diagram.png)
+![Wiring Diagram](Images/model_with_buttons.png)
 
 Now the code works and the logic works.
 ![Wiring Diagram](Videos/changing_the_led.gif)
