@@ -44,9 +44,9 @@ The prototype was manufactured with a 0.2mm layer height. The video below shows 
 
 ## Installation & Usage
 
-| Connecting to Esp | From the Front |
-| :--- | :--- |
-| ![Day 5 - Photo 2](Images/connected_toesp.jpg)<br>*I added the ESP and wired up the screen and the buttons.* | ![Day 5 - Photo 3](Images/frontview.jpg)<br>*This is what the project looks like from the front.* |
+| Connecting to Esp | From the Front | Connected Battery |
+| :--- | :--- | :--- |
+| ![Day 5 - Photo 2](Images/connected_toesp.jpg)<br>*I added the ESP and wired up the screen and the buttons.* | ![Day 5 - Photo 3](Images/frontview.jpg)<br>*This is what the project looks like from the front.* | ![Connected Battery](Images/swapped_battery.jpg)<br>*Connected battery.* |
 
 Printed and added Buttons
 ![Wiring Diagram](Images/model_with_buttons.jpg)
